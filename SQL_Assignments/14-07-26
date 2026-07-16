@@ -1,1 +1,134 @@
+-- Databricks notebook source
+select * from employees
+
+-- COMMAND ----------
+
+select * from employees
+where salary >= 80000
+
+-- COMMAND ----------
+
+select * from employees
+where experience <= 3
+
+-- COMMAND ----------
+
+select * from employees
+where salary != 45000
+
+-- COMMAND ----------
+
+select * from employees
+where salary < 50000
+
+-- COMMAND ----------
+
+select * from employees
+where experience > 5
+
+-- COMMAND ----------
+
+select * from employees
+where department = 'IT' and salary > 70000
+
+-- COMMAND ----------
+
+select * from employees
+where city = 'Hyderabad' 
+or city ='Bangalore'
+
+-- COMMAND ----------
+
+select * from employees
+where department = 'HR'
+and experience < 3
+
+-- COMMAND ----------
+
+select * from employees
+where salary > 60000 
+or experience > 6
+
+-- COMMAND ----------
+
+select * from employees
+where not department = 'Sales'
+
+-- COMMAND ----------
+
+select * from employees
+where city in ('Hyderabad','Mumbai')
+
+-- COMMAND ----------
+
+select * from employees
+where department in ('IT','Finance')
+
+-- COMMAND ----------
+
+select * from employees
+where city not in ('Chennai','Pune')
+
+-- COMMAND ----------
+
+select * from employees
+where salary in (45000,75000,91000)
+
+-- COMMAND ----------
+
+select * from employees
+where department not in ('Sales','HR')
+
+-- COMMAND ----------
+
+select * from employees
+where salary between 50000 and 80000
+
+-- COMMAND ----------
+
+select * from employees
+where experience between 3 and 6
+
+-- COMMAND ----------
+
+select * from employees
+where emp_id between 105 and 112
+
+-- COMMAND ----------
+
+select * from employees
+where salary not between 40000 and 60000
+
+-- COMMAND ----------
+
+select * from employees
+where experience between 3 and 4
+
+-- COMMAND ----------
+
+select * from employees
+where emp_name like 'R%'
+
+-- COMMAND ----------
+
+select * from employees
+where emp_name like '%a'
+
+-- COMMAND ----------
+
+select * from employees
+where emp_name like '%v%'
+
+-- COMMAND ----------
+
+select * from employees
+where city like 'B%'
+
+-- COMMAND ----------
+
+select * from employees
+where department like '%s'
+
+-- COMMAND ----------
+
 
