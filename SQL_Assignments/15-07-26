@@ -1,1 +1,498 @@
+-- Databricks notebook source
+
+CREATE OR REPLACE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50),
+    Location VARCHAR(50)
+);
+
+INSERT INTO Departments VALUES
+(1,'HR','New York'),
+(2,'Finance','Chicago'),
+(3,'IT','Dallas'),
+(4,'Marketing','Boston'),
+(5,'Sales','Seattle'),
+(6,'Operations','Atlanta');
+
+select * from Departments
+
+-- COMMAND ----------
+
+CREATE or replace TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(50),
+    DepartmentID INT,
+    Salary DECIMAL(10,2),
+    ManagerID INT,
+    JoiningDate DATE
+);
+
+INSERT INTO Employees VALUES
+(101,'John',1,50000,NULL,'2020-01-15'),
+(102,'Emma',2,65000,101,'2021-03-10'),
+(103,'David',3,70000,101,'2019-07-22'),
+(104,'Sophia',3,72000,103,'2022-05-01'),
+(105,'Michael',5,55000,102,'2021-09-18'),
+(106,'Olivia',NULL,48000,102,'2023-01-12'),
+(107,'James',4,60000,103,'2022-10-20'),
+(108,'William',7,75000,101,'2020-08-11'),
+(109,'Ava',NULL,52000,NULL,'2024-02-15'),
+(110,'Isabella',5,68000,105,'2021-06-05');
+select * from employees
+
+-- COMMAND ----------
+
+CREATE TABLE Projects (
+    ProjectID INT PRIMARY KEY,
+    ProjectName VARCHAR(50),
+    DepartmentID INT,
+    Budget DECIMAL(12,2)
+);
+
+INSERT INTO Projects VALUES
+(201,'Payroll System',1,150000),
+(202,'Audit System',2,200000),
+(203,'Website Redesign',4,100000),
+(204,'ERP Upgrade',3,500000),
+(205,'Sales Dashboard',5,175000),
+(206,'Automation',6,250000),
+(207,'AI Chatbot',8,300000);
+
+select * from Projects
+
+-- COMMAND ----------
+
+CREATE TABLE EmployeeProjects (
+    EmployeeID INT,
+    ProjectID INT
+);
+
+INSERT INTO EmployeeProjects VALUES
+(101,201),
+(102,202),
+(103,204),
+(104,204),
+(105,205),
+(107,203),
+(110,205),
+(103,207),
+(108,207),
+(109,202);
+
+select * from EmployeeProjects
+
+-- COMMAND ----------
+
+--1--
+select e.EmployeeName, d.DepartmentName 
+from Employees e
+inner join Departments d
+on e.DepartmentId = d.DepartmentID
+
+-- COMMAND ----------
+
+--2--
+select p.ProjectName, d.DepartmentName
+from Projects p
+inner join departments d
+on p.DepartmentID = d.DepartmentID
+
+-- COMMAND ----------
+
+--3--
+SELECT e.EmployeeName, p.ProjectName
+FROM Employees e
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+
+-- COMMAND ----------
+
+CREATE OR REPLACE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50),
+    Location VARCHAR(50)
+);
+
+INSERT INTO Departments VALUES
+(1,'HR','New York'),
+(2,'Finance','Chicago'),
+(3,'IT','Dallas'),
+(4,'Marketing','Boston'),
+(5,'Sales','Seattle'),
+(6,'Operations','Atlanta');
+
+select * from Departments
+
+-- COMMAND ----------
+
+CREATE or replace TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(50),
+    DepartmentID INT,
+    Salary DECIMAL(10,2),
+    ManagerID INT,
+    JoiningDate DATE
+);
+
+INSERT INTO Employees VALUES
+(101,'John',1,50000,NULL,'2020-01-15'),
+(102,'Emma',2,65000,101,'2021-03-10'),
+(103,'David',3,70000,101,'2019-07-22'),
+(104,'Sophia',3,72000,103,'2022-05-01'),
+(105,'Michael',5,55000,102,'2021-09-18'),
+(106,'Olivia',NULL,48000,102,'2023-01-12'),
+(107,'James',4,60000,103,'2022-10-20'),
+(108,'William',7,75000,101,'2020-08-11'),
+(109,'Ava',NULL,52000,NULL,'2024-02-15'),
+(110,'Isabella',5,68000,105,'2021-06-05');
+select * from employees
+
+-- COMMAND ----------
+
+--4--
+select e.EmployeeName, e.Salary, d.Location 
+from Employees e
+inner join Departments d
+on e.DepartmentID = d.DepartmentID
+
+-- COMMAND ----------
+
+--5--
+select e.EmployeeID,e.EmployeeName,p.ProjectName
+from employees e
+inner join EmployeeProjects ep 
+on e.EmployeeID = ep.EmployeeID
+inner join Projects p
+on ep.ProjectID = p.ProjectID
+
+-- COMMAND ----------
+
+--1--
+SELECT e.EmployeeName, d.DepartmentName
+FROM Employees e
+LEFT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+-- COMMAND ----------
+
+--2--
+SELECT d.DepartmentName, e.EmployeeName
+FROM Departments d
+LEFT JOIN Employees e
+ON d.DepartmentID = e.DepartmentID;
+
+-- COMMAND ----------
+
+--3--
+SELECT p.ProjectName, d.DepartmentName
+FROM Projects p
+LEFT JOIN Departments d
+ON p.DepartmentID = d.DepartmentID;
+
+-- COMMAND ----------
+
+--4--
+SELECT e.EmployeeName, p.ProjectName
+FROM Employees e
+LEFT JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+LEFT JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+-- COMMAND ----------
+
+--5--
+SELECT e.EmployeeName, p.ProjectName
+FROM Employees e
+LEFT JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+LEFT JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+-- COMMAND ----------
+
+--1--
+SELECT d.DepartmentName, e.EmployeeName
+FROM Employees e
+RIGHT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+-- COMMAND ----------
+
+--2--
+SELECT p.ProjectName, e.EmployeeName
+FROM EmployeeProjects ep
+RIGHT JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+LEFT JOIN Employees e
+ON ep.EmployeeID = e.EmployeeID;
+
+-- COMMAND ----------
+
+--3--
+SELECT d.DepartmentName, e.EmployeeName
+FROM Employees e
+RIGHT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+-- COMMAND ----------
+
+--4--
+SELECT p.ProjectName, d.DepartmentName
+FROM Departments d
+RIGHT JOIN Projects p
+ON d.DepartmentID = p.DepartmentID;
+
+-- COMMAND ----------
+
+--5--
+SELECT p.ProjectName, e.EmployeeName
+FROM EmployeeProjects ep
+RIGHT JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+LEFT JOIN Employees e
+ON ep.EmployeeID = e.EmployeeID;
+
+-- COMMAND ----------
+
+--1--
+SELECT e.EmployeeName, d.DepartmentName
+FROM Employees e
+FULL JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+-- COMMAND ----------
+
+--2--
+SELECT d.DepartmentName, p.ProjectName
+FROM Departments d
+FULL JOIN Projects p
+ON d.DepartmentID = p.DepartmentID;
+
+-- COMMAND ----------
+
+--3--
+SELECT e.EmployeeName, p.ProjectName
+FROM Employees e
+FULL JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+FULL JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+-- COMMAND ----------
+
+--4--
+SELECT d.DepartmentName, e.EmployeeName
+FROM Departments d
+FULL JOIN Employees e
+ON d.DepartmentID = e.DepartmentID;
+
+-- COMMAND ----------
+
+--5--
+SELECT d.DepartmentName, p.ProjectName
+FROM Departments d
+FULL JOIN Projects p
+ON d.DepartmentID = p.DepartmentID;
+
+-- COMMAND ----------
+
+--Intermediate--
+--1--
+SELECT e.EmployeeName, d.DepartmentName
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+WHERE d.DepartmentName = 'IT';
+
+-- COMMAND ----------
+
+--2--
+SELECT e.EmployeeName, p.ProjectName, p.Budget
+FROM Employees e
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+WHERE p.Budget > 200000;
+
+-- COMMAND ----------
+
+--3--
+SELECT e.EmployeeName,
+       d.DepartmentName,
+       p.ProjectName
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+-- COMMAND ----------
+
+--4--
+SELECT d.DepartmentName,
+       COUNT(e.EmployeeID) AS TotalEmployees
+FROM Departments d
+INNER JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+GROUP BY d.DepartmentName;
+
+-- COMMAND ----------
+
+--5--
+SELECT d.DepartmentName,
+       AVG(e.Salary) AS AverageSalary
+FROM Departments d
+INNER JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+GROUP BY d.DepartmentName;
+
+-- COMMAND ----------
+
+--1--
+SELECT e.EmployeeName
+FROM Employees e
+LEFT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+WHERE d.DepartmentID IS NULL;
+
+-- COMMAND ----------
+
+--2--
+SELECT e.EmployeeName
+FROM Employees e
+LEFT JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+WHERE ep.ProjectID IS NULL;
+
+-- COMMAND ----------
+
+--3--
+SELECT d.DepartmentName
+FROM Departments d
+LEFT JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+WHERE e.EmployeeID IS NULL;
+
+-- COMMAND ----------
+
+--4--
+SELECT p.ProjectName
+FROM Projects p
+LEFT JOIN Departments d
+ON p.DepartmentID = d.DepartmentID
+WHERE d.DepartmentID IS NULL;
+
+-- COMMAND ----------
+
+--5--
+SELECT d.DepartmentName,
+       COUNT(e.EmployeeID) AS TotalEmployees
+FROM Departments d
+LEFT JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+GROUP BY d.DepartmentName;
+
+-- COMMAND ----------
+
+--1--
+SELECT d.DepartmentName
+FROM Employees e
+RIGHT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+WHERE e.EmployeeID IS NULL;
+
+-- COMMAND ----------
+
+--2--
+SELECT p.ProjectName
+FROM EmployeeProjects ep
+RIGHT JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+WHERE ep.EmployeeID IS NULL;
+
+-- COMMAND ----------
+
+--3--
+SELECT d.DepartmentName,
+       p.ProjectName
+FROM Projects p
+RIGHT JOIN Departments d
+ON p.DepartmentID = d.DepartmentID;
+
+-- COMMAND ----------
+
+--4--
+SELECT d.DepartmentName,
+       COUNT(e.EmployeeID) AS TotalEmployees
+FROM Employees e
+RIGHT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+GROUP BY d.DepartmentName;
+
+-- COMMAND ----------
+
+--5--
+SELECT p.ProjectName,
+       e.EmployeeName
+FROM EmployeeProjects ep
+RIGHT JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+LEFT JOIN Employees e
+ON ep.EmployeeID = e.EmployeeID;
+
+-- COMMAND ----------
+
+--1--
+SELECT d.DepartmentName,
+       e.EmployeeName
+FROM Departments d
+FULL JOIN Employees e
+ON d.DepartmentID = e.DepartmentID;
+
+-- COMMAND ----------
+
+--2--
+SELECT e.EmployeeName
+FROM Employees e
+FULL JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+WHERE d.DepartmentID IS NULL;
+
+-- COMMAND ----------
+
+--3--
+SELECT d.DepartmentName
+FROM Departments d
+FULL JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+WHERE e.EmployeeID IS NULL;
+
+-- COMMAND ----------
+
+--4--
+SELECT
+COALESCE(e.EmployeeName, 'No Employee') AS EmployeeName,
+COALESCE(d.DepartmentName, 'No Department') AS DepartmentName
+FROM Employees e
+FULL JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+-- COMMAND ----------
+
+--5--
+SELECT d.DepartmentName,
+       p.ProjectName
+FROM Departments d
+FULL JOIN Projects p
+ON d.DepartmentID = p.DepartmentID;
+
+-- COMMAND ----------
+
 
